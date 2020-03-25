@@ -4,18 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./css/style.css">
     <title>To DO List</title>
-    
+
 </head>
 ​
+
 <body>
     <section class="header">
-            <h1 class="tittle">To DO List</h1>
-            <div class="block-input">
-                <input type="text" class="inp" id="inp" placeholder="Add the task...">
-                <button class="add-task" id="btn" class="addBtn">Add</button>
-            </div>
+        <h1 class="tittle">To DO List</h1>
+        <div class="block-input">
+            <input type="text" class="inp" id="inp" placeholder="Add the task...">
+            <button class="add-task" id="btn" class="addBtn">Add</button>
+        </div>
     </section>
 
     <div class="container">
@@ -32,131 +33,11 @@
                 <p class="text">task</p>
                 <i class="fa fa-trash-o de "></i>
             </li> -->
-            
+
         </ul>
     </div>
     ​
-    <script>
-        let input = document.getElementById('inp');
-        let addTask = document.getElementById('btn');
-        const out = document.querySelector('.out');
-        let completed = document.querySelector('.completed');
-
-        function getCompletedItem(innerHTML) {
-            const li = document.createElement('li');
-            li.classList.add('completed-item')
-            li.innerHTML = innerHTML;
-            return li;
-        }
-
-        function createListItem() {
-            const li = document.createElement('li');
-            li.classList.add('item')
-
-            console.log('li', li)
-
-            return li;
-        }
-
-        function createCheckbox() {
-            const checkBox = document.createElement('input')
-            checkBox.setAttribute('type', 'checkbox');
-            checkBox.classList.add("check-box");
-            checkBox.setAttribute('job', 'complete')
-
-            console.log('checkBox', checkBox)
-
-            return checkBox;
-        }
-
-        function createIcon() {
-            const icon = document.createElement('i')
-            icon.classList.add("fa", "fa-trash-o", "de")
-            icon.setAttribute('job', 'delete')
-
-            console.log('icon', icon)
-
-            return icon;
-        }
-
-        function createText(listElementText) {
-            const text = document.createElement('p');
-            text.classList.add('text');
-            text.innerText = listElementText;
-
-            console.log('text', text)
-            return text;
-        }
-
-        function createListElement(listElementText) {
-            const checkBox = createCheckbox();
-            const icon = createIcon();
-            const text = createText(listElementText)
-            const li = createListItem();
-
-            li.append(checkBox, text, icon);
-
-            return li;
-        }
-
-        function addToDo() {
-            const inputValue = input.value;
-
-            const li = createListElement(inputValue)
-            console.dir(li)
-            out.appendChild(li);
-        }
-
-        addTask.onclick = function () {
-            if (input.value != "") {
-                addToDo()
-                input.value = '';
-            }
-            else {
-                alert('Pls add the task')
-            }
-        }
-
-        function completeToDo(element) {
-
-            element.setAttribute('checked', 'checked')
-            element.classList.toggle('checked')
-            element.parentNode.querySelector(".text").classList.toggle('line_through')
-
-            if (element.classList.contains('checked')) {
-                let completedItem = document.querySelector('.checked').parentNode
-
-                out.append(getCompletedItem(element.parentNode.innerHTML))
-                setTimeout(() => {
-                    completedItem.remove();
-                }, 0)
-            }
-            else {
-                out.prepend(getCompletedItem(element.parentNode.innerHTML))
-                document.querySelector('.check-box').checked = false;
-                element.classList.remove('line_through', 'checked')
-                element.removeAttribute('checked')
-                element.parentNode.remove()
-            }
-        }
-
-        function removeToDO(element) {
-            console.log(element.parentNode)
-            element.parentNode.remove()
-        }
-
-        out.addEventListener('click', (e) => {
-            const element = e.target;
-            const elementJob = element.attributes.job.value;
-            if (elementJob === 'complete') {
-                completeToDo(element)
-                console.log(element)
-            }
-            else if (elementJob === 'delete') {
-                removeToDO(element)
-            }
-        })
-    </script>
+    <script src="./js/main.js"></script>
 </body>
 ​
 
