@@ -85,8 +85,6 @@ addTask.addEventListener('click', (e) => {
     }
 })
 
-
-
 function completeToDo(element) {
 
     element.setAttribute('checked', 'checked')
@@ -103,7 +101,6 @@ function completeToDo(element) {
     }
     else {
         out.prepend(createListElement(element.parentNode.innerText))
-        // getCompletedItem.classList.add('item')
         document.querySelector('.check-box').checked = false;
         element.classList.remove('line_through', 'checked')
         element.removeAttribute('checked')
@@ -144,16 +141,17 @@ function editTask(text, listElementText) {
         createInput.focus();
 
         createInput.addEventListener('keydown', (e) => {
-
             if (e.keyCode === 13) {
                 text.innerText = createInput.value;
-
+                editTask(text, text.innerText)
             }
         })
 
         document.addEventListener('click', (e) => {
             if (e.target != 'ul') {
                 text.innerText = createInput.value;
+                editTask(text, text.innerText)
+
             }
         })
     })
