@@ -97,12 +97,13 @@ function completeToDo(element) {
     if (element.classList.contains('checked')) {
         let completedItem = document.querySelector('.checked').parentNode;
         out.append(getCompletedItem(html))
-        console.log(completedItem)
+        console.log(element.parentNode)
         completedItem.remove();
 
     }
     else {
-        out.prepend(getCompletedItem(element.parentNode.innerHTML))
+        out.prepend(createListElement(element.parentNode.innerText))
+        // getCompletedItem.classList.add('item')
         document.querySelector('.check-box').checked = false;
         element.classList.remove('line_through', 'checked')
         element.removeAttribute('checked')
