@@ -75,7 +75,7 @@ function addToDo() {
     out.appendChild(li);
 }
 
-addTask.onclick = function () {
+addTask.addEventListener('click', (e) => {
     if (input.value != "") {
         addToDo()
         input.value = '';
@@ -83,7 +83,9 @@ addTask.onclick = function () {
     else {
         alert('Pls add the task')
     }
-}
+})
+
+
 
 function completeToDo(element) {
 
@@ -133,7 +135,8 @@ function editTask(text, listElementText) {
 
         const createInput = document.createElement('input')
         createInput.classList.add('input_inner_task')
-        createInput.setAttribute('type', 'text');
+        createInput.setAttribute('type', 'text', 'job', 'false');
+        createInput.setAttribute('job', 'false');
         createInput.value = textValue;
         text.innerText = '';
         text.append(createInput);
@@ -143,8 +146,14 @@ function editTask(text, listElementText) {
 
             if (e.keyCode === 13) {
                 text.innerText = createInput.value;
+
             }
         })
 
+        document.addEventListener('click', (e) => {
+            if (e.target != 'ul') {
+                text.innerText = createInput.value;
+            }
+        })
     })
 }
