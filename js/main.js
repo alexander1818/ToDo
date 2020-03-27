@@ -129,8 +129,8 @@ out.addEventListener('click', (e) => {
 function editTask(text, listElementText) {
     const textValue = listElementText
 
-    text.addEventListener('dblclick', (e) => {
 
+    text.addEventListener('dblclick', (e) => {
         const createInput = document.createElement('input')
         createInput.classList.add('input_inner_task')
         createInput.setAttribute('type', 'text', 'job', 'false');
@@ -139,20 +139,41 @@ function editTask(text, listElementText) {
         text.innerText = '';
         text.append(createInput);
         createInput.focus();
+        const getCheckBox = document.querySelectorAll('.check-box');
+        getCheckBox.forEach((e) => {
+
+            if (createInput) {
+            e.setAttribute('disabled', 'disabled')
+    
+            }
+            
+        })
+
+        // console.log(e.target)
+        // getCheckBox.setAttribute('disabled', 'disabled')
 
         createInput.addEventListener('keydown', (e) => {
             if (e.keyCode === 13) {
+                getCheckBox.removeAttribute('disabled')
                 text.innerText = createInput.value;
                 editTask(text, text.innerText)
             }
         })
 
         document.addEventListener('click', (e) => {
-            if (e.target != 'ul') {
+            
+            if (e.target != 'li') {
+                    console.log(getCheckBox)
+                    getCheckBox.forEach((e) => {
+                        e.removeAttribute('disabled')
+                    })
+                // getCheckBox.removeAttribute('disabled')
                 text.innerText = createInput.value;
                 editTask(text, text.innerText)
 
             }
+
         })
     })
+    
 }
