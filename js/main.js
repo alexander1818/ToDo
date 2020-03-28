@@ -3,15 +3,6 @@ const addTask = document.getElementById('btn');
 const out = document.querySelector('.out');
 const completed = document.querySelector('.completed');
 
-function getCompletedItem(innerHTML) {
-    const li = document.createElement('li');
-    li.classList.add('completed-item')
-    li.setAttribute('job', 'false')
-    // li.setAttribute('contenteditable', 'true')
-    li.innerHTML = innerHTML;
-    return li;
-}
-
 function createListItem() {
     const li = document.createElement('li');
     li.setAttribute('job', 'false')
@@ -19,6 +10,16 @@ function createListItem() {
     li.classList.add('item')
 
     console.log('li', li)
+
+    return li;
+}
+
+function getCompletedItem(innerHTML) {
+    const li = document.createElement('li');
+    li.classList.add('completed-item')
+    li.setAttribute('job', 'false')
+    // li.setAttribute('contenteditable', 'true')
+    li.innerHTML = innerHTML;
 
     return li;
 }
@@ -53,6 +54,7 @@ function createText(listElementText) {
     editTask(text, listElementText)
 
     console.log('text', text)
+
     return text;
 }
 
@@ -69,10 +71,10 @@ function createListElement(listElementText) {
 
 function addToDo() {
     const inputValue = input.value;
-
     const li = createListElement(inputValue)
+
     console.dir(li)
-    out.appendChild(li);
+    out.prepend(li);
 }
 
 addTask.addEventListener('click', (e) => {
@@ -85,6 +87,14 @@ addTask.addEventListener('click', (e) => {
     }
 })
 
+input.addEventListener('keypress', (e) => {
+    if (input.value != "" && e.key == 'Enter') {
+        addToDo()
+        input.value = '';
+    }
+
+})
+
 function completeToDo(element) {
 
     element.setAttribute('checked', 'checked')
@@ -95,9 +105,7 @@ function completeToDo(element) {
     if (element.classList.contains('checked')) {
         let completedItem = document.querySelector('.checked').parentNode;
         out.append(getCompletedItem(html))
-        console.log(element.parentNode)
         completedItem.remove();
-
     }
     else {
         out.prepend(createListElement(element.parentNode.innerText))
@@ -105,21 +113,19 @@ function completeToDo(element) {
         element.classList.remove('line_through', 'checked')
         element.removeAttribute('checked')
         element.parentNode.remove()
-
     }
 }
 
 function removeToDO(element) {
-    console.log(element.parentNode)
     element.parentNode.remove()
 }
 
 out.addEventListener('click', (e) => {
     const element = e.target;
     const elementJob = element.attributes.job.value;
+
     if (elementJob === 'complete') {
         completeToDo(element)
-        console.log(element)
     }
     else if (elementJob === 'delete') {
         removeToDO(element)
@@ -129,51 +135,44 @@ out.addEventListener('click', (e) => {
 function editTask(text, listElementText) {
     const textValue = listElementText
 
-
     text.addEventListener('dblclick', (e) => {
         const createInput = document.createElement('input')
         createInput.classList.add('input_inner_task')
-        createInput.setAttribute('type', 'text', 'job', 'false');
+        createInput.setAttribute('type', 'text');
         createInput.setAttribute('job', 'false');
         createInput.value = textValue;
         text.innerText = '';
         text.append(createInput);
         createInput.focus();
+
         const getCheckBox = document.querySelectorAll('.check-box');
         getCheckBox.forEach((e) => {
-
             if (createInput) {
-            e.setAttribute('disabled', 'disabled')
-    
+                e.setAttribute('disabled', 'disabled')
             }
-            
         })
-
-        // console.log(e.target)
-        // getCheckBox.setAttribute('disabled', 'disabled')
 
         createInput.addEventListener('keydown', (e) => {
             if (e.keyCode === 13) {
-                getCheckBox.removeAttribute('disabled')
+                getCheckBox.forEach((e) => {
+                    e.removeAttribute('disabled')
+                })
                 text.innerText = createInput.value;
                 editTask(text, text.innerText)
             }
         })
 
         document.addEventListener('click', (e) => {
-            
             if (e.target != 'li') {
-                    console.log(getCheckBox)
-                    getCheckBox.forEach((e) => {
-                        e.removeAttribute('disabled')
-                    })
-                // getCheckBox.removeAttribute('disabled')
+                getCheckBox.forEach((e) => {
+                    e.removeAttribute('disabled')
+                })
+
                 text.innerText = createInput.value;
                 editTask(text, text.innerText)
 
             }
-
         })
     })
-    
+
 }
